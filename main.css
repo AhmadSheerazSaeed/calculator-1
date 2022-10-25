@@ -1,0 +1,84 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 62.5%;
+}
+
+body {
+  padding: 4rem;
+}
+
+.wrapper {
+  position: fixed;
+  width: 350px;
+  height: 450px;
+  background-color: gray;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.calculationOutput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+input[type="text"] {
+  height: 40px;
+  color: darkblue;
+  font-size: 3rem;
+  width: 330px;
+  padding: 1rem;
+  border: none;
+  background-color: lightgray;
+  margin-bottom: 0.5rem;
+}
+
+/* digits buttons  */
+.digitSection {
+  padding: 1rem;
+  width: 330px;
+  height: 310px;
+  background-color: lightgray;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+}
+
+.digitButtons:hover,
+.calcButtons:hover,
+.equalButton:hover,
+.resetButton:hover {
+  background-color: blueviolet;
+  color: white;
+}
+
+.digitButtons,
+.calcButtons,
+.equalButton {
+  width: 50px;
+  height: 50px;
+  font-size: 3rem;
+  background-color: whitesmoke;
+  color: blue;
+}
+
+.resetButton {
+  width: 250px;
+  height: 50px;
+  font-size: 3rem;
+  background-color: whitesmoke;
+  color: blue;
+}
+
+.equalButton {
+  width: 300px;
+}
