@@ -12,55 +12,58 @@ const calcButtonsElements = document.querySelectorAll(".calcButtons");
 const equalButton = document.querySelector(".equalButton");
 const resetButton = document.querySelector(".resetButton");
 
-// get value from the pressed button
+// console.log(buttonsElements);
+
 for (let count = 0; count < buttonsElements.length; count++) {
+  // console.log(buttonsElements[count]);
   buttonsElements[count].addEventListener("click", () => {
+    // console.log(buttonsElements[count].textContent);
     inputValue.value += buttonsElements[count].textContent;
   });
 }
 
-// get airthmetic operators on button pressed
 for (let count = 0; count < calcButtonsElements.length; count++) {
+  // console.log(calcButtonsElements[count].textContent);
   calcButtonsElements[count].addEventListener("click", () => {
     operatorForCalculations = calcButtonsElements[count].textContent;
-    inputValue.value += operatorForCalculations;
+    num1 = inputValue.value;
+    inputValue.value = "";
   });
 }
 
-// show result after pressing the equal to button
 equalButton.addEventListener("click", () => {
-  // num2 = inputValue.value;
-  num1 = inputValue.value.substring(
-    0,
-    inputValue.value.indexOf(operatorForCalculations)
-  );
-  num2 = inputValue.value.substring(
-    inputValue.value.indexOf(operatorForCalculations) + 1,
-    inputValue.value.length
-  );
-  calculationOfNumbers(num1, num2, operatorForCalculations);
+  num2 = inputValue.value;
   inputValue.value = "";
+  calculationOfNumbers(num1, num2, operatorForCalculations);
 });
 
-// function to display result of input
-function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator = "+") {
+function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator) {
+  // console.log("num1 : " + num1);
+  // console.log("num2 : " + num2);
+  // console.log("operator : " + calcOperator);
+
   switch (calcOperator) {
     case "+":
+      // console.log("+");
       inputResult.value = `${Number(num1)} + ${Number(num2)} = ${
         Number(num1) + Number(num2)
       }`;
+      // resultOfCalculations = num1 + num2;
       break;
     case "-":
+      // console.log("-");
       inputResult.value = `${Number(num1)} - ${Number(num2)} = ${
         Number(num1) - Number(num2)
       }`;
       break;
     case "*":
+      // console.log("*");
       inputResult.value = `${Number(num1)} * ${Number(num2)} = ${
         Number(num1) * Number(num2)
       }`;
       break;
     case "/":
+      // console.log("/");
       inputResult.value = `${Number(num1)} / ${Number(num2)} = ${
         Number(num1) / Number(num2)
       }`;
@@ -70,7 +73,6 @@ function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator = "+") {
   }
 }
 
-// reset button event listner
 resetButton.addEventListener("click", () => {
   num1 = 0;
   num2 = 0;
