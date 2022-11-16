@@ -11,32 +11,51 @@
     <section class="wrapper">
       <!-- to display the digits and result -->
       <section class="calculationOutput">
-        <input id="result" type="text" disabled />
-        <input id="inputValue" type="text" disabled />
+        <p class="messageDisplay">M</p>
+        <p class="inputDisplay"></p>
+        <p class="resultDisplay"></p>
       </section>
 
       <!-- buttons for digits -->
-      <section class="digitSection">
-        <button class="digitButtons" id="btnsDigit">1</button>
-        <button class="digitButtons" id="btnsDigit">2</button>
-        <button class="digitButtons" id="btnsDigit">3</button>
-        <button class="digitButtons" id="btnsDigit">4</button>
-        <button class="digitButtons" id="btnsDigit">5</button>
-        <button class="digitButtons" id="btnsDigit">6</button>
-        <button class="digitButtons" id="btnsDigit">7</button>
-        <button class="digitButtons" id="btnsDigit">8</button>
-        <button class="digitButtons" id="btnsDigit">9</button>
-        <button class="digitButtons" id="btnsDigit">0</button>
-        <button class="digitButtons" id="btnsDigit">.</button>
-        <button class="calcButtons plusBtn" id="btnsDigit">+</button>
-        <button class="calcButtons minusBtn" id="btnsDigit">-</button>
-        <button class="calcButtons multiplyBtn" id="btnsDigit">*</button
-        ><button class="calcButtons divideBtn" id="btnsDigit">/</button>
-        <button class="equalButton equalBtn" id="btnsDigit">=</button>
-        <button class="resetButton resetBtn" id="btnsDigit">Reset</button>
+      <section class="btnsSection">
+        <button class="btn1 btnm">MC</button>
+        <button class="btn1 btnm">M+</button>
+        <button class="btn1 btnm">M-</button>
+        <button class="btn1 btnm">MR</button>
+
+        <button class="btn1 btnBlue clearBtn">C</button>
+        <!--divide  &#247; ÷ -->
+        <button class="btn1 btnBlue btnsForCalc">/</button>
+        <!--multiply   &#215;-->
+        <button class="btn1 btnBlue btnsForCalc">*</button>
+        <!--backspace-->
+        <button class="btn1 btnBlue backspaceBtn">&#x232b;</button>
+
+        <button class="btn1 btnsForCalc">7</button>
+        <button class="btn1 btnsForCalc">8</button>
+        <button class="btn1 btnsForCalc">9</button>
+        <button class="btn1 btnBlue btnsForCalc">-</button>
+
+        <button class="btn1 btnsForCalc">4</button>
+        <button class="btn1 btnsForCalc">5</button>
+        <button class="btn1 btnsForCalc">6</button>
+        <!--plus-->
+        <button class="btn1 btnBlue btnsForCalc">&#43;</button>
+
+        <button class="btn1 btnsForCalc">1</button>
+        <button class="btn1 btnsForCalc">2</button>
+        <button class="btn1 btnsForCalc">3</button>
+        <!--equal-->
+        <button class="btn1 btnEqual btnsForCalc">&#61;</button>
+
+        <button class="btn1 btnsForCalc">%</button>
+        <button class="btn1 btnsForCalc">0</button>
+        <button class="btn1 btnsForCalc">,</button>
+        <!-- <button class="btn1 btn2 btnBlue">=</button> -->
       </section>
     </section>
+
     <!-- -- -- -- -- --  script  -- -- -- -- -- -->
-    <script src="./main.js"></script>
+    <script src="./main.js" defer></script>
   </body>
 </html>

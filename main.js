@@ -1,133 +1,267 @@
 "use strict";
 
-let num1 = 0;
-let num2 = 0;
-let resultOfCalculations = 0;
-let operatorForCalculations = "";
+// variables
 
-const inputResult = document.querySelector("#result");
-const inputValue = document.querySelector("#inputValue");
-const buttonsElements = document.querySelectorAll(".digitButtons");
-const calcButtonsElements = document.querySelectorAll(".calcButtons");
-const equalButton = document.querySelector(".equalButton");
-const resetButton = document.querySelector(".resetButton");
+let chkArithmeticOperator = false; // to check that if arithmetic operator has been entered then the next entered character would not be any operator again
+let chkPointEnter = false; // to check that the point cannot be entered two times in the same figure
 
-// get value from the digit buttons pressed
-for (let count = 0; count < buttonsElements.length; count++) {
-  buttonsElements[count].addEventListener("click", () => {
-    // inputValue.value += buttonsElements[count].textContent;
-    getDigits(buttonsElements[count].textContent);
-  });
-}
+// elements
+const inputValue = document.querySelector(".inputDisplay");
+const digitBtns = document.querySelectorAll(".btnsForCalc");
+const clearBtn = document.querySelector(".clearBtn");
+const displayResult = document.querySelector(".resultDisplay");
+const backspaceBtn = document.querySelector(".backspaceBtn");
 
-// input from keyboard
+// event listeners
+
+// input of digits and math operators entered from keyboard
 document.addEventListener("keydown", (event) => {
-  // console.log(event);
-  if (
-    event.key === "1" ||
-    event.key === "2" ||
-    event.key === "3" ||
-    event.key === "4" ||
-    event.key === "5" ||
-    event.key === "6" ||
-    event.key === "7" ||
-    event.key === "8" ||
-    event.key === "9" ||
-    event.key === "0"
-  ) {
-    getDigits(event.key);
-  } else if (event.key === "," || event.key === ".") {
-    // console.log(inputValue.value.indexOf("."));
-    getDigits(".");
-  }
-
-  // get arithmetic operator
-  if (
-    event.key === "+" ||
-    event.key === "-" ||
-    event.key === "*" ||
-    event.key === "/"
-  ) {
-    getArithmeticOperator(event.key);
-  }
-
-  if (event.key === "Enter") {
-    calcValues();
-  }
+  //   console.log(event.key);
+  chkInput(event.key);
 });
 
-// function to display input in text box
-function getDigits(digitValue) {
-  inputValue.value += digitValue;
-}
+// event for clear button
+clearBtn.addEventListener("click", () => {
+  inputValue.textContent = "";
+  displayResult.textContent = "";
+});
 
 // get arithmetic operators on button pressed
-for (let count = 0; count < calcButtonsElements.length; count++) {
-  calcButtonsElements[count].addEventListener("click", () => {
-    operatorForCalculations = calcButtonsElements[count].textContent;
-    // inputValue.value += operatorForCalculations;
-
-    getArithmeticOperator(operatorForCalculations);
+// console.log(digitBtns.textContent);
+for (let count = 0; count < digitBtns.length; count++) {
+  digitBtns[count].addEventListener("click", () => {
+    chkInput(digitBtns[count].textContent);
   });
 }
 
-// function to display arithmetic operator in input field
-function getArithmeticOperator(arithmeticOperator) {
-  operatorForCalculations = arithmeticOperator;
-  inputValue.value += arithmeticOperator;
-}
+backspaceBtn.addEventListener("click", () => {
+  deleteLastInput();
+});
 
-// show result after pressing the equal to button
-equalButton.addEventListener("click", calcValues);
+// functions
 
-// function to get values and send these values for calculation
-function calcValues() {
-  // num2 = inputValue.value;
-  num1 = inputValue.value.substring(
-    0,
-    inputValue.value.indexOf(operatorForCalculations)
-  );
-  num2 = inputValue.value.substring(
-    inputValue.value.indexOf(operatorForCalculations) + 1,
-    inputValue.value.length
-  );
-  calculationOfNumbers(num1, num2, operatorForCalculations);
-  inputValue.value = "";
-}
-
-// function to calculate result of input
-function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator = "+") {
-  switch (calcOperator) {
-    case "+":
-      inputResult.value = `${Number(num1)} + ${Number(num2)} = ${
-        Number(num1) + Number(num2)
-      }`;
-      break;
-    case "-":
-      inputResult.value = `${Number(num1)} - ${Number(num2)} = ${
-        Number(num1) - Number(num2)
-      }`;
-      break;
-    case "*":
-      inputResult.value = `${Number(num1)} * ${Number(num2)} = ${
-        Number(num1) * Number(num2)
-      }`;
-      break;
-    case "/":
-      inputResult.value = `${Number(num1)} / ${Number(num2)} = ${
-        Number(num1) / Number(num2)
-      }`;
-      break;
-    default:
-      inputResult.value = "";
+function deleteLastInput() {
+  inputValue.textContent = inputValue.textContent.slice(0, -1);
+  inputValueArray();
+  if (inputValue.textContent.length === 0) {
+    displayResult.textContent = "";
   }
 }
 
-// reset button event listner
-resetButton.addEventListener("click", () => {
-  num1 = 0;
-  num2 = 0;
-  operatorForCalculations = "";
-  inputValue.value = "";
-  inputResult.value = "";
-});
+// function to validate input
+function chkInput(eventKey) {
+  if (
+    eventKey === "1" ||
+    eventKey === "2" ||
+    eventKey === "3" ||
+    eventKey === "4" ||
+    eventKey === "5" ||
+    eventKey === "6" ||
+    eventKey === "7" ||
+    eventKey === "8" ||
+    eventKey === "9" ||
+    eventKey === "0"
+  ) {
+    inputValue.textContent += eventKey;
+    chkArithmeticOperator = false;
+    inputValueArray();
+  } else if (
+    (eventKey === "," || eventKey === ".") &&
+    chkPointEnter === false
+  ) {
+    // console.log("CHECKING , ", inputValue.textContent.indexOf("."));
+    chkArithmeticOperator = false;
+    inputValue.textContent += ".";
+    inputValueArray();
+    if (inputValue.textContent.indexOf(".") > 0) {
+      chkPointEnter = true;
+    }
+  }
+
+  // get arithmetic operator when digits already entered
+  if (
+    (eventKey === "+" ||
+      eventKey === "-" ||
+      eventKey === "*" ||
+      eventKey === "/") &&
+    chkArithmeticOperator === false &&
+    inputValue.textContent.length > 0
+  ) {
+    inputValue.textContent += eventKey;
+    chkArithmeticOperator = true;
+    chkPointEnter = false;
+    inputValueArray();
+  }
+
+  // only minus(-) arithmetic operator is allowed
+  // when input field is empty
+  else if (
+    eventKey === "-" &&
+    chkArithmeticOperator === false &&
+    inputValue.textContent.length === 0
+  ) {
+    inputValue.textContent += eventKey;
+    chkArithmeticOperator = true;
+    inputValueArray();
+  }
+
+  if (eventKey === "Backspace") {
+    deleteLastInput();
+  }
+
+  if (eventKey === "Enter") {
+    // console.log(typeof inputValue);
+    // let inputValueToString = JSON.stringify(inputValue.value);
+    // console.log(typeof inputValueToString);
+    // //console.log(allDigitsInInput);
+    // // console.log(inputValue.value.length);
+    // // calcValues();
+    // calArrayDigits();
+  }
+}
+
+function inputValueArray() {
+  //   console.log(inputValue.textContent);
+  //   console.log(inputValue.textContent.split(""));
+
+  const arrayOfAllValues = inputValue.textContent.split("");
+  //   console.log(arrayOfAllValues);
+  calculateAllValues(arrayOfAllValues);
+}
+
+// calculation from an array of values
+function calculateAllValues(myArray) {
+  let operatorCount = 0;
+
+  const operatorsInArray = myArray.filter((elementValues) => {
+    if (
+      elementValues === "/" ||
+      elementValues === "*" ||
+      elementValues === "-" ||
+      elementValues === "+"
+    ) {
+      return true;
+    }
+  });
+
+  //   console.log("original array : ", myArray);
+
+  // console.log("array with operators : ", operatorsInArray);
+
+  // console.log("first position of + : ", myArray.indexOf("+"));
+
+  // empty arrays to store the selected elements
+  let valuesFromArray = [];
+  let valuesFromArrayLastElement = [];
+
+  // variables to store elements of the above declared arrays as strings
+  let valueForCalculation = "";
+  let valueForCalculationLastValue = "";
+
+  // to store the arithmetic operator
+  let result = 0;
+  let firstValue = 0;
+  let secondValue = 0;
+  let lastValue = 0;
+  let mathOperator = "";
+  let mathOperatorLastElement = "";
+
+  //
+  for (let count = 0; count < operatorsInArray.length; count++) {
+    // console.log(
+    //   "index of the operator : ",
+    //   myArray.indexOf(operatorsInArray[count]) +
+    //     "  and the operator is : " +
+    //     operatorsInArray[count] +
+    //     " and the count is : " +
+    //     count
+    // );
+
+    if (myArray.indexOf(operatorsInArray[count]) === 0) {
+      valuesFromArray = myArray.splice(
+        0,
+        myArray.indexOf(operatorsInArray[count], operatorsInArray[count] + 1)
+      );
+    } else {
+      valuesFromArray = myArray.splice(
+        0,
+        myArray.indexOf(operatorsInArray[count])
+      );
+    }
+    if (operatorsInArray.length - 1 === count) {
+      valuesFromArrayLastElement = myArray;
+    }
+    // console.log(valuesFromArray);
+    // console.log(valuesFromArrayLastValue);
+
+    // calculation of results
+    // console.log("-----------result calculation --------------");
+    valueForCalculation = valuesFromArray.join("");
+    // console.log(valueForCalculation);
+
+    if (
+      valueForCalculation.substring(0, 1) === "/" ||
+      valueForCalculation.substring(0, 1) === "*" ||
+      valueForCalculation.substring(0, 1) === "-" ||
+      valueForCalculation.substring(0, 1) === "+"
+    ) {
+      // console.log("complete value ", valueForCalculation);
+      // console.log("length is ", valueForCalculation.length);
+      // console.log("operator", valueForCalculation.substring(0, 1));
+      // console.log(
+      //   "remaining value",
+      //   valueForCalculation.substring(1, valueForCalculation.length)
+      // );
+      mathOperator = valueForCalculation.substring(0, 1);
+      secondValue = valueForCalculation.substring(
+        1,
+        valueForCalculation.length
+      );
+      // console.log(` operator is ${mathOperator} and ${secondValue}`);
+      result = calcResult(mathOperator, secondValue);
+    } else {
+      // console.log(valueForCalculation);
+      result = Number(valueForCalculation);
+    }
+
+    // last element calculation
+
+    valueForCalculationLastValue = valuesFromArrayLastElement.join("");
+
+    if (
+      valueForCalculationLastValue.substring(0, 1) === "/" ||
+      valueForCalculationLastValue.substring(0, 1) === "*" ||
+      valueForCalculationLastValue.substring(0, 1) === "-" ||
+      valueForCalculationLastValue.substring(0, 1) === "+"
+    ) {
+      mathOperatorLastElement = valueForCalculationLastValue.substring(0, 1);
+      lastValue = valueForCalculationLastValue.substring(
+        1,
+        valueForCalculationLastValue.length
+      );
+
+      result = calcResult(mathOperatorLastElement, lastValue);
+    }
+    // console.log("The final resule is : ", result);
+    displayResult.textContent = result.toFixed(2);
+  }
+
+  function calcResult(mathOperator, value) {
+    switch (mathOperator) {
+      case "+":
+        return result + Number(value);
+        break;
+      case "-":
+        return result - Number(value);
+        break;
+      case "*":
+        return result * Number(value);
+        break;
+      case "/":
+        return result / Number(value);
+        break;
+      // default:
+      //   inputResult.value = "";
+    }
+  }
+}

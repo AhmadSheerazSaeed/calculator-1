@@ -12,58 +12,108 @@ const calcButtonsElements = document.querySelectorAll(".calcButtons");
 const equalButton = document.querySelector(".equalButton");
 const resetButton = document.querySelector(".resetButton");
 
-// console.log(buttonsElements);
-
+// get value from the digit buttons pressed
 for (let count = 0; count < buttonsElements.length; count++) {
-  // console.log(buttonsElements[count]);
   buttonsElements[count].addEventListener("click", () => {
-    // console.log(buttonsElements[count].textContent);
-    inputValue.value += buttonsElements[count].textContent;
+    // inputValue.value += buttonsElements[count].textContent;
+    getDigits(buttonsElements[count].textContent);
   });
 }
 
-for (let count = 0; count < calcButtonsElements.length; count++) {
-  // console.log(calcButtonsElements[count].textContent);
-  calcButtonsElements[count].addEventListener("click", () => {
-    operatorForCalculations = calcButtonsElements[count].textContent;
-    num1 = inputValue.value;
-    inputValue.value = "";
-  });
-}
+// input from keyboard
+document.addEventListener("keydown", (event) => {
+  // console.log(event);
+  if (
+    event.key === "1" ||
+    event.key === "2" ||
+    event.key === "3" ||
+    event.key === "4" ||
+    event.key === "5" ||
+    event.key === "6" ||
+    event.key === "7" ||
+    event.key === "8" ||
+    event.key === "9" ||
+    event.key === "0"
+  ) {
+    getDigits(event.key);
+  } else if (event.key === "," || event.key === ".") {
+    // console.log(inputValue.value.indexOf("."));
+    getDigits(".");
+  }
 
-equalButton.addEventListener("click", () => {
-  num2 = inputValue.value;
-  inputValue.value = "";
-  calculationOfNumbers(num1, num2, operatorForCalculations);
+  // get arithmetic operator
+  if (
+    event.key === "+" ||
+    event.key === "-" ||
+    event.key === "*" ||
+    event.key === "/"
+  ) {
+    getArithmeticOperator(event.key);
+  }
+
+  if (event.key === "Enter") {
+    calcValues();
+  }
 });
 
-function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator) {
-  // console.log("num1 : " + num1);
-  // console.log("num2 : " + num2);
-  // console.log("operator : " + calcOperator);
+// function to display input in text box
+function getDigits(digitValue) {
+  inputValue.value += digitValue;
+}
 
+// get arithmetic operators on button pressed
+for (let count = 0; count < calcButtonsElements.length; count++) {
+  calcButtonsElements[count].addEventListener("click", () => {
+    operatorForCalculations = calcButtonsElements[count].textContent;
+    // inputValue.value += operatorForCalculations;
+
+    getArithmeticOperator(operatorForCalculations);
+  });
+}
+
+// function to display arithmetic operator in input field
+function getArithmeticOperator(arithmeticOperator) {
+  operatorForCalculations = arithmeticOperator;
+  inputValue.value += arithmeticOperator;
+}
+
+// show result after pressing the equal to button
+equalButton.addEventListener("click", calcValues);
+
+// function to get values and send these values for calculation
+function calcValues() {
+  // num2 = inputValue.value;
+  num1 = inputValue.value.substring(
+    0,
+    inputValue.value.indexOf(operatorForCalculations)
+  );
+  num2 = inputValue.value.substring(
+    inputValue.value.indexOf(operatorForCalculations) + 1,
+    inputValue.value.length
+  );
+  calculationOfNumbers(num1, num2, operatorForCalculations);
+  inputValue.value = "";
+}
+
+// function to calculate result of input
+function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator = "+") {
   switch (calcOperator) {
     case "+":
-      // console.log("+");
       inputResult.value = `${Number(num1)} + ${Number(num2)} = ${
         Number(num1) + Number(num2)
       }`;
-      // resultOfCalculations = num1 + num2;
       break;
     case "-":
-      // console.log("-");
       inputResult.value = `${Number(num1)} - ${Number(num2)} = ${
         Number(num1) - Number(num2)
       }`;
       break;
     case "*":
-      // console.log("*");
       inputResult.value = `${Number(num1)} * ${Number(num2)} = ${
         Number(num1) * Number(num2)
       }`;
       break;
     case "/":
-      // console.log("/");
       inputResult.value = `${Number(num1)} / ${Number(num2)} = ${
         Number(num1) / Number(num2)
       }`;
@@ -73,6 +123,7 @@ function calculationOfNumbers(num1 = 0, num2 = 0, calcOperator) {
   }
 }
 
+// reset button event listner
 resetButton.addEventListener("click", () => {
   num1 = 0;
   num2 = 0;

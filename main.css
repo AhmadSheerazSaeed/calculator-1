@@ -10,75 +10,98 @@
 
 body {
   padding: 1rem;
+  background-color: gray;
 }
 
 .wrapper {
   position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
   width: 350px;
-  height: 450px;
-  background-color: gray;
+  height: 700px;
+  background-color: #e9ecf1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 }
 
 .calculationOutput {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5rem;
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
-input[type="text"] {
-  height: 40px;
-  color: darkblue;
-  font-size: 3rem;
-  width: 330px;
-  padding: 1rem;
+.messageDisplay {
+  border-radius: 10px;
+  height: 20px;
+  padding: 5px;
+}
+.inputDisplay {
+  height: 150px;
+  font-size: 4rem;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.resultDisplay {
+  height: 70px;
+  font-size: 4rem;
+}
+
+.btnsSection {
+  height: 460px;
+  position: absolute;
+  background-color: #f2f3f5;
+  /* background-color: darkgray; */
+  border-radius: 20px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  width: 100%;
+  top: 240px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(6, 75px);
+  justify-items: center;
+  align-content: center;
+}
+
+.btn1 {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
   border: none;
-  background-color: lightgray;
-  margin-bottom: 0.5rem;
+  outline: none;
+  font-size: 3rem;
+  background-color: #fcfcfc;
+  -webkit-box-shadow: 0px 0px 22px -5px rgba(221, 224, 230, 1);
+  -moz-box-shadow: 0px 0px 22px -5px rgba(221, 224, 230, 1);
+  box-shadow: 0px 0px 22px -5px rgba(221, 224, 230, 1);
 }
 
-/* digits buttons  */
-.digitSection {
-  padding: 1rem;
-  width: 330px;
-  height: 310px;
-  background-color: lightgray;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  gap: 1rem;
+.btn1:hover {
+  background-color: #e3e4e6;
 }
 
-.digitButtons:hover,
-.calcButtons:hover,
-.equalButton:hover,
-.resetButton:hover {
-  background-color: blueviolet;
+.btnm {
+  color: #a3a3a3;
+}
+
+.btnBlue {
+  color: #105bf0;
+}
+
+.btnEqual {
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  border-bottom-left-radius: 60px;
+  border-bottom-right-radius: 60px;
+  height: 145px;
+  background-color: #105bf0;
   color: white;
 }
 
-.digitButtons,
-.calcButtons,
-.equalButton {
-  width: 50px;
-  height: 50px;
-  font-size: 3rem;
-  background-color: whitesmoke;
-  color: blue;
-}
-
-.resetButton {
-  width: 250px;
-  height: 50px;
-  font-size: 3rem;
-  background-color: whitesmoke;
-  color: blue;
-}
-
-.equalButton {
-  width: 300px;
+.btnEqual:hover {
+  background-color: #0844bc;
 }
